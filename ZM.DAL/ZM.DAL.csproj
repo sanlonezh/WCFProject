@@ -47,10 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDAL.cs" />
-    <Compile Include="DALExt.cs">
+    <Compile Include="DALEx.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DALExt.tt</DependentUpon>
+      <DependentUpon>DALEx.tt</DependentUpon>
     </Compile>
     <Compile Include="DBSessionExt.cs">
       <AutoGen>True</AutoGen>
@@ -67,9 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="DALExt.tt">
+    <None Include="DALEx.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DALExt.cs</LastGenOutput>
+      <LastGenOutput>DALEx.cs</LastGenOutput>
     </None>
     <None Include="DBSessionExt.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
