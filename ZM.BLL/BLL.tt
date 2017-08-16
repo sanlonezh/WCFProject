@@ -1,0 +1,71 @@
+﻿<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ include file="EF.Utility.CS.ttinclude"#>
+<#@ output extension=".cs"#> 
+ <#
+
+CodeGenerationTools code = new CodeGenerationTools(this);
+MetadataLoader loader = new MetadataLoader(this);
+CodeRegion region = new CodeRegion(this, 1);
+MetadataTools ef = new MetadataTools(this);
+
+string inputFile = @"..\\ZM.Model\\DB.edmx";
+
+EdmItemCollection ItemCollection = loader.CreateEdmItemCollection(inputFile);
+string namespaceName = code.VsNamespaceSuggestion();
+
+EntityFrameworkTemplateFileManager fileManager = EntityFrameworkTemplateFileManager.Create(this);
+
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using ZM.Model;
+using ZM.DAL;
+using IMS.DAL;
+
+namespace  ZM.BLL
+{
+<#
+
+// Emit Entity Types
+foreach (EntityType entity in ItemCollection.GetItems<EntityType>().OrderBy(e => e.Name))
+{
+    //fileManager.StartNewFile(entity.Name + "RepositoryExt.cs");
+    //BeginNamespace(namespaceName, code);
+    
+#>
+	public partial class <#=entity.Name#>BLL : BaseBLL<<#=entity.Name#>>
+    {
+	    private  <#=entity.Name#>DAL  <#=entity.Name.ToLower()#>DAL = null;
+	    public override void SetDAL()
+        {
+           dal = DBSession.<#=entity.Name#>DAL;   
+           <#=entity.Name.ToLower()#>DAL = dal as <#=entity.Name#>DAL; 
+        }
+		public <#=entity.Name#> Add<#=entity.Name#>(<#=entity.Name#> _<#=entity.Name#>)
+        {
+            return AddEntity(_<#=entity.Name#>);
+        }
+		public List<<#=entity.Name#>> Get<#=entity.Name#>ByWhere(string where,params object[] paramss)
+        {
+            return GetEntitysByWhere(where,paramss);
+        }
+		public bool Delete<#=entity.Name#>(<#=entity.Name#> <#=entity.Name#>)
+		{
+		return DeleteEntity(<#=entity.Name#>);
+		}
+		public bool Delete<#=entity.Name#>s(List<<#=entity.Name#>> <#=entity.Name#>s)
+		{
+		return DeleteEntitys(<#=entity.Name#>s);
+		}
+		public bool Update<#=entity.Name#>s(List<<#=entity.Name#>> <#=entity.Name#>s)
+		{
+		return UpdateEntitys(<#=entity.Name#>s);
+		}
+    }
+
+<#}#>
+
+}
