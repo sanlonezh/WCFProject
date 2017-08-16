@@ -66,8 +66,7 @@ namespace ClientDemo
             //bll.UpdateEntitys(users);
            //hello world
             string a = "";
-            //测试Git
-            int i = 0;
+            
         }
     }
 }
